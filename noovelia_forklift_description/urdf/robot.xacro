@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<robot name="noovelia_forklift" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property name="M_PI" value="3.1415926535897931" />
+  <xacro:property name="M_PI_2" value="1.570796327" />
+  <xacro:property name="DEG_TO_RAD" value="0.017453293" />
+
+  <xacro:include filename="$(find noovelia_forklift_description)/urdf/material.xacro" />
+  <!-- base_footprint is a fictitious link(frame) that is on the ground right below chassis_link origin -->
+  <link name="base_footprint">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+  </link>>
+
+
+<link name="chassis_link">
+    <collision name="chassis_collision">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+            <mesh filename="package://noovelia_forklift_description/meshes/Forklift model/carrosserie lift.STL" scale="0.001 0.001 0.001"/>
+        </geometry>
+    </collision>
+    <visual name="chassis_visual">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://noovelia_forklift_description/meshes/Forklift model/carrosserie lift.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+</link>
+
+<joint name="base_footprint_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="base_footprint"/>
+    <child link="chassis_link"/>
+</joint>
+
+</robot>
