@@ -5,6 +5,14 @@
   <xacro:property name="M_PI_2" value="1.570796327" />
   <xacro:property name="DEG_TO_RAD" value="0.017453293" />
 
+   <xacro:macro name="default_inertial" params="mass w h d">
+    <inertial>
+      <origin rpy="0 0 0" xyz="${d/2} -${w/2} ${h/2}"/>
+      <mass value="${mass}" />
+      <inertia ixx="${(1/12)*(h*h + d*d)}" ixy="0.0" ixz="0.0" iyy="${(1/12)*(w*w + d*d)}" iyz="0.0" izz="${(1/12)*(w*w + h*h)}" />
+    </inertial>
+  </xacro:macro>
+
   <xacro:include filename="$(find noovelia_forklift_description)/urdf/material.xacro" />
   <!-- base_footprint is a fictitious link(frame) that is on the ground right below chassis_link origin -->
   <link name="base_footprint">
@@ -15,7 +23,6 @@
       </geometry>
     </visual>
   </link>>
-
 
 <link name="chassis_link">
     <collision name="chassis_collision">
@@ -31,6 +38,11 @@
       </geometry>
       <material name="white"/>
     </visual>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="40" />
+    <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1" />
+    </inertial>
 </link>
 
 <joint name="base_footprint_joint" type="fixed">
@@ -51,8 +63,9 @@
       <geometry>
         <mesh filename="package://noovelia_robot_description/meshes/Forklift model/carrosserie lift.STL" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="grey"/>
+      <material name="red"/>
     </visual>
+    <xacro:default_inertial mass="40" w = "1.1" h = "1.2" d = "0.9"/>
   </link>
 
   <joint name="lift_joint" type="fixed">
@@ -60,5 +73,20 @@
     <child link="lift_link"/>
     <origin xyz="0.6 -1 0.2"/>
   </joint>
+
+  <!--gazebo references-->
+   <gazebo reference="base_footprint">
+        <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+
+    <gazebo reference="chassis_link">
+        <turnGravityOff>false</turnGravityOff>
+        <material>Gazebo/Orange</material>
+    </gazebo>
+
+    <gazebo reference="lift_link">
+        <turnGravityOff>false</turnGravityOff>
+        <material>Gazebo/Orange</material>
+    </gazebo>
 
 </robot>
