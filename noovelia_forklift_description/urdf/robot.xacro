@@ -19,17 +19,17 @@
 
 <link name="chassis_link">
     <collision name="chassis_collision">
-      <origin rpy="${M_PI_2} 0 0" xyz="0 0 0"/>
+      <origin rpy="${M_PI_2} 0 0" xyz="0 1 0"/>
         <geometry>
-            <mesh filename="package://noovelia_forklift_description/meshes/Forklift model/Assemblage général.STL" scale="0.001 0.001 0.001"/>
+            <mesh filename="package://noovelia_forklift_description/meshes/Forklift model/chassis AGV FL.STL" scale="0.001 0.001 0.001"/>
         </geometry>
     </collision>
     <visual name="chassis_visual">
-      <origin rpy="${M_PI_2} 0 0" xyz="0 0 0"/>
+      <origin rpy="${M_PI_2} 0 0" xyz="0 1 0"/>
       <geometry>
-        <mesh filename="package://noovelia_forklift_description/meshes/Forklift model/Assemblage général.STL" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://noovelia_forklift_description/meshes/Forklift model/chassis AGV FL.STL" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="red"/>
+      <material name="white"/>
     </visual>
 </link>
 
@@ -38,5 +38,27 @@
     <parent link="base_footprint"/>
     <child link="chassis_link"/>
 </joint>
+
+ <link name="lift_link">
+    <collision name="lift_collision">
+      <origin rpy="${M_PI/2} 0 0" xyz="0 0 0"/>
+        <geometry>
+            <mesh filename="package://noovelia_robot_description/meshes/Forklift model/carrosserie lift.STL" scale="0.001 0.001 0.001"/>
+        </geometry>
+    </collision>
+    <visual name="lift_visual">
+      <origin rpy="${M_PI/2} 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://noovelia_robot_description/meshes/Forklift model/carrosserie lift.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+  </link>
+
+  <joint name="lift_joint" type="fixed">
+    <parent link="chassis_link"/>
+    <child link="lift_link"/>
+    <origin xyz="0.6 -1 0.2"/>
+  </joint>
 
 </robot>
