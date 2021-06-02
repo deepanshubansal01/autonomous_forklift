@@ -162,10 +162,11 @@
         </collision>
       </link>
       
-      <joint name="base2fixed_left_wheel_joint" type="fixed">
+      <joint name="base2fixed_left_wheel_joint" type="continuous">
         <parent link="base_fork"/>
         <child link="fixed_left_wheel_link"/>
         <origin xyz="0.45 0.05 0.03" rpy="0 0 0" />
+        <axis xyz="0 1 0" />
       </joint>
       
       <link name="fixed_right_wheel_link">
@@ -190,10 +191,11 @@
         </collision>
       </link>
 
-      <joint name="base2fixed_right_wheel_joint" type="fixed">
+      <joint name="base2fixed_right_wheel_joint" type="continuous">
         <parent link="base_fork"/>
         <child link="fixed_right_wheel_link"/>
         <origin xyz="-0.6 0.05 0.03" rpy="0 0 0" />
+        <axis xyz="0 1 0" />
       </joint>
 
   <!--gazebo references-->
@@ -225,10 +227,10 @@
     </gazebo>
 
     <gazebo reference="sd_wheel_link" >
-    <!-- <mu1 value="10000.0" />
+    <mu1 value="10000.0" />
     <mu2 value="10000.0" />
     <kp  value="10000000000.0" />
-    <kd  value="1.0" /> -->
+    <kd  value="1.0" />
       <material>Gazebo/Black</material>
   </gazebo>
      
@@ -236,6 +238,35 @@
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
 <!--      <robotNamespace>/forklift</robotNamespace> -->
+    </plugin>
+  </gazebo>
+
+   <gazebo>
+    <plugin name="steer_drive_controller" filename="libgazebo_ros_steer_drive.so">
+      <alwaysOn>true</alwaysOn>
+      <updateRate>100</updateRate>
+      <steerJoint>base2steer_joint</steerJoint>
+      <driveJoint>steer2sd_wheel_joint</driveJoint>
+      <fixedWheelLeftJoint>base2fixed_left_wheel_joint</fixedWheelLeftJoint>
+      <fixedWheelRightJoint>base2fixed_right_wheel_joint</fixedWheelRightJoint>
+
+      <wheelDiameter>${2*wheel_radius}</wheelDiameter>
+      <steeringFixWheelDistanceX>1.190</steeringFixWheelDistanceX>
+      <steeringFixWheelDistanceY>0.0</steeringFixWheelDistanceY>
+      
+      <steerTorque>1000</steerTorque>
+      <driveTorque>1000</driveTorque>
+
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>/world</odometryFrame>
+      <robotBaseFrame>base_footprint</robotBaseFrame>
+
+      <odomEncSteeringAngleOffset>0.01</odomEncSteeringAngleOffset>
+ 
+      <!--odometrySource>encoder</odometrySource-->
+      
+      <publishWheelJointState>true</publishWheelJointState>
     </plugin>
   </gazebo>
 

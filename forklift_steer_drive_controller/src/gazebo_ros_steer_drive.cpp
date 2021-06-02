@@ -69,7 +69,7 @@ void GazeboRosSteerDrive::Load ( physics::ModelPtr _parent, sdf::ElementPtr _sdf
 
     joint_steer_ = gazebo_ros_->getJoint ( parent, "steerJoint", "steer_joint" );
     joint_drive_ = gazebo_ros_->getJoint ( parent, "driveJoint", "drive_joint" );
-    
+
     // Note, this joints are not used for anything apart from getting the TF's.
     joint_fixed_wheel_left_ = gazebo_ros_->getJoint ( parent, "fixedWheelLeftJoint", "fixed_wheel_left_joint" );
     joint_fixed_wheel_right_ = gazebo_ros_->getJoint ( parent, "fixedWheelRightJoint", "fixed_wheel_right_joint" );
@@ -98,7 +98,6 @@ void GazeboRosSteerDrive::Load ( physics::ModelPtr _parent, sdf::ElementPtr _sdf
 
     // Initialize velocity stuff
     alive_ = true;
-
     if ( this->publishWheelJointState_ ) {
         joint_state_publisher_ = gazebo_ros_->node()->advertise<sensor_msgs::JointState> ( "joint_states", 1000 );
         ROS_INFO ( "%s: Advertise joint_states!", gazebo_ros_->info() );
@@ -127,7 +126,7 @@ void GazeboRosSteerDrive::Load ( physics::ModelPtr _parent, sdf::ElementPtr _sdf
 
     // start custom queue for diff drive
     this->callback_queue_thread_ = boost::thread ( boost::bind ( &GazeboRosSteerDrive::QueueThread, this ) );
-
+    
     // listen to the update event (broadcast every simulation iteration)
     this->update_connection_ = event::Events::ConnectWorldUpdateBegin ( boost::bind ( &GazeboRosSteerDrive::UpdateChild, this ) );
 

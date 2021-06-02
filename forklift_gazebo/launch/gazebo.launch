@@ -6,7 +6,7 @@
     <arg name="use_sim_time" default="true"/>
     <arg name="gui" default="true"/>
     <arg name="headless" default="false"/>
-    <arg name="debug" default="true"/>
+    <arg name="debug" default="false"/>
     <arg name="model" default="$(find forklift_description)/urdf/robot.xacro"/>
   
     <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
@@ -19,9 +19,11 @@
     </include>
   
     <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
   
     <!-- push robot_description to factory and spawn robot in gazebo -->
     <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
- 		  args="-urdf -model forklift_robot -param robot_description" />
+ 		  args="-urdf -model forklift -param robot_description" />
 
   </launch>
