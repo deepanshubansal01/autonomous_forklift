@@ -5,6 +5,11 @@
   <xacro:property name="M_PI_2" value="1.570796327" />
   <xacro:property name="DEG_TO_RAD" value="0.017453293" />
 
+  <!--the main wheel that perform steer + move behind the lift-->
+  <xacro:property name="wheel_width" value="0.2" /> 
+  <xacro:property name="wheel_radius" value="0.225" /> 
+  <xacro:property name="wheel_mass" value="4" /> <!-- in kg-->
+
    <xacro:macro name="default_inertial" params="mass w h d">
     <inertial>
       <origin rpy="0 0 0" xyz="${d/2} -${w/2} ${h/2}"/>
@@ -13,7 +18,15 @@
     </inertial>
   </xacro:macro>
 
+  <xacro:macro name="cylinder_inertia" params="m r h">
+      <inertia  ixx="${m*(3*r*r+h*h)/12}" ixy = "0" ixz = "0"
+                iyy="${m*(3*r*r+h*h)/12}" iyz = "0"
+                izz="${m*r*r/2}" /> 
+  </xacro:macro>
+
   <xacro:include filename="$(find noovelia_forklift_description)/urdf/material.xacro" />
+  <xacro:include filename="$(find noovelia_forklift_description)/urdf/wheel.xacro" />
+
   <!-- base_footprint is a fictitious link(frame) that is on the ground right below chassis_link origin -->
   <link name="base_footprint">
     <visual>
@@ -26,13 +39,13 @@
 
 <link name="chassis_link">
     <collision name="chassis_collision">
-      <origin rpy="${M_PI_2} 0 0" xyz="0 1 0"/>
+      <origin rpy="${M_PI_2} 0 0" xyz="0 1 -0.2"/>
         <geometry>
             <mesh filename="package://noovelia_forklift_description/meshes/Forklift model/chassis AGV FL.STL" scale="0.001 0.001 0.001"/>
         </geometry>
     </collision>
     <visual name="chassis_visual">
-      <origin rpy="${M_PI_2} 0 0" xyz="0 1 0"/>
+      <origin rpy="${M_PI_2} 0 0" xyz="0 1 -0.2"/>
       <geometry>
         <mesh filename="package://noovelia_forklift_description/meshes/Forklift model/chassis AGV FL.STL" scale="0.001 0.001 0.001"/>
       </geometry>
@@ -71,8 +84,14 @@
   <joint name="lift_joint" type="fixed">
     <parent link="chassis_link"/>
     <child link="lift_link"/>
-    <origin xyz="0.6 -1 0.2"/>
+    <origin xyz="0.6 -1 0.15"/>
   </joint>
+
+  <!--main wheel-->
+  <xacro:wheel_link prefix="wheel" mesh = "package://noovelia_robot_description/meshes/Forklift model/Moteur MV300.STL" 
+                  mass= "${wheel_mass}" radius= "${wheel_radius}"
+                  width= "${wheel_width}" origin_rpy="0 0 0"/>
+  <xacro:wheel_joint prefix="wheel" child = "wheel_link" origin_xyz = "1.05 -1.7 0"/>
 
   <!--gazebo references-->
    <gazebo reference="base_footprint">
