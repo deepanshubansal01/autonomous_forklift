@@ -139,6 +139,63 @@
         <axis xyz="0 1 0" />
       </joint>
 
+      <link name="fixed_left_wheel_link">
+        <inertial>
+          <mass value="0.1"/>
+          <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01" />
+          <origin/>
+        </inertial>
+        <visual>
+          <origin xyz="0 0.11 0" rpy="1.57 0 0" />
+          <geometry>
+            <mesh filename="package://noovelia_robot_description/meshes/Forklift model/Roues avant.STL" scale="0.001 0.001 0.001"/>
+          </geometry>
+          <material name="grey"/>
+        </visual>
+        
+        <collision>
+          <origin xyz="0 0.11 0" rpy="1.57 0 0" />
+          <geometry>
+            <mesh filename="package://noovelia_robot_description/meshes/Forklift model/Roues avant.STL" scale="0.001 0.001 0.001"/>
+          </geometry>
+         <!-- <contact_coefficients mu="100" kp="10.0" kd="0.1"/> -->
+        </collision>
+      </link>
+      
+      <joint name="base2fixed_left_wheel_joint" type="fixed">
+        <parent link="base_fork"/>
+        <child link="fixed_left_wheel_link"/>
+        <origin xyz="0.45 0.05 0.03" rpy="0 0 0" />
+      </joint>
+      
+      <link name="fixed_right_wheel_link">
+        <inertial>
+          <mass value="0.1"/>
+          <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01" />
+          <origin/>
+        </inertial>
+        <visual>
+          <origin xyz="0 0.11 0" rpy="1.57 0 0" />
+          <geometry>
+            <mesh filename="package://noovelia_robot_description/meshes/Forklift model/Roues avant.STL" scale="0.001 0.001 0.001"/>
+          </geometry>
+          <material name="grey"/>
+        </visual>
+        <collision>
+          <origin xyz="0 0.11 0" rpy="1.57 0 0" />
+          <geometry>
+            <mesh filename="package://noovelia_robot_description/meshes/Forklift model/Roues avant.STL" scale="0.001 0.001 0.001"/>
+          </geometry>
+         <!-- <contact_coefficients mu="100" kp="10.0" kd="0.1"/> -->
+        </collision>
+      </link>
+
+      <joint name="base2fixed_right_wheel_joint" type="fixed">
+        <parent link="base_fork"/>
+        <child link="fixed_right_wheel_link"/>
+        <origin xyz="-0.6 0.05 0.03" rpy="0 0 0" />
+      </joint>
+
   <!--gazebo references-->
    <gazebo reference="base_footprint">
         <turnGravityOff>false</turnGravityOff>
