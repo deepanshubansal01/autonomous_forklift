@@ -108,4 +108,14 @@
         <material>Gazebo/Orange</material>
     </gazebo>
 
+    <gazebo reference="wheel_link">
+        <mu1 value="1.0"/>
+        <mu2 value="1.0"/>
+        <kp  value="10000.0" />
+        <kd  value="1.0" />
+        <fdir1 value="1 0 0"/>
+        <material>Gazebo/Grey</material>
+        <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+
 </robot>
