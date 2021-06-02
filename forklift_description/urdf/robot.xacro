@@ -6,8 +6,8 @@
   <xacro:property name="DEG_TO_RAD" value="0.017453293" />
 
   <!--the main wheel that perform steer + move behind the lift-->
-  <xacro:property name="wheel_width" value="0.2" /> 
-  <xacro:property name="wheel_radius" value="0.225" /> 
+  <xacro:property name="wheel_width" value="0.06" /> 
+  <xacro:property name="wheel_radius" value="0.12" /> 
   <xacro:property name="wheel_mass" value="4" /> <!-- in kg-->
 
    <xacro:macro name="default_inertial" params="mass w h d">
@@ -25,7 +25,6 @@
   </xacro:macro>
 
   <xacro:include filename="$(find forklift_description)/urdf/material.xacro" />
-  <xacro:include filename="$(find forklift_description)/urdf/wheel.xacro" />
 
   <!-- base_footprint is a fictitious link(frame) that is on the ground right below base_fork origin -->
   <link name="base_footprint">
@@ -66,13 +65,13 @@
 
  <link name="base_link">
     <collision name="base_link_collision">
-      <origin rpy="${M_PI/2} 0 0" xyz="-0.6 -1.1 0"/>
+      <origin rpy="${M_PI/2} 0 0" xyz="-0.6 -1.1 -${wheel_radius}"/>
         <geometry>
             <mesh filename="package://noovelia_robot_description/meshes/Forklift model/carrosserie lift.STL" scale="0.001 0.001 0.001"/>
         </geometry>
     </collision>
     <visual name="base_link_visual">
-      <origin rpy="${M_PI/2} 0 0" xyz="-0.6 -1.1 0"/>
+      <origin rpy="${M_PI/2} 0 0" xyz="-0.6 -1.1 -${wheel_radius}"/>
       <geometry>
         <mesh filename="package://noovelia_robot_description/meshes/Forklift model/carrosserie lift.STL" scale="0.001 0.001 0.001"/>
       </geometry>
@@ -84,7 +83,7 @@
   <joint name="base_link_joint" type="fixed">
     <parent link="base_fork"/>
     <child link="base_link"/>
-    <origin xyz="0 0 0.08"/>
+    <origin xyz="0 0 ${wheel_radius}"/>
   </joint>
 
       <link name="steer_link">
@@ -96,7 +95,7 @@
         <visual>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <box size="0.2 0.2 0.2" />
+            <box size="0.16 0.16 0.16" />
           </geometry>
           <material name="orange"/>
         </visual>
@@ -111,7 +110,7 @@
         <visual>
           <origin xyz="0 0 0" rpy="${M_PI_2} 0 ${M_PI_2}" />
           <geometry>
-            <cylinder radius="0.16" length="0.04" />
+            <cylinder radius="${wheel_radius}" length="${wheel_width}" />
           </geometry>
           <material name="black"/>
         </visual>
@@ -119,7 +118,7 @@
         <collision>
           <origin xyz="0 0 0" rpy="${M_PI_2} 0 ${M_PI_2}" />
           <geometry>
-            <cylinder radius="0.16" length="0.04" />
+            <cylinder radius="${wheel_radius}" length="${wheel_width}" />
           </geometry>
         </collision>
       </link>
@@ -128,7 +127,7 @@
         <parent link="base_link"/>
         <child link="steer_link"/>
         <limit effort="10000.0" lower="-${M_PI_2}" upper="${M_PI_2}" velocity="100"/>
-        <origin xyz="0 -1.6 0.05" rpy="0 0 0" />
+        <origin xyz="0 -1.6 0" rpy="0 0 0" />
         <axis xyz="0 0 1" />
       </joint>
 
