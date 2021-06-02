@@ -262,6 +262,8 @@
       <odometryFrame>/world</odometryFrame>
       <robotBaseFrame>base_footprint</robotBaseFrame>
 
+      <wheelAcceleration>1</wheelAcceleration>
+
       <odomEncSteeringAngleOffset>0.01</odomEncSteeringAngleOffset>
  
       <!--odometrySource>encoder</odometrySource-->
