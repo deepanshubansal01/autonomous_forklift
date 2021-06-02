@@ -27,7 +27,7 @@
   <xacro:include filename="$(find forklift_description)/urdf/material.xacro" />
   <xacro:include filename="$(find forklift_description)/urdf/wheel.xacro" />
 
-  <!-- base_footprint is a fictitious link(frame) that is on the ground right below chassis_link origin -->
+  <!-- base_footprint is a fictitious link(frame) that is on the ground right below base_fork origin -->
   <link name="base_footprint">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -37,15 +37,15 @@
     </visual>
   </link>>
 
-<link name="chassis_link">
-    <collision name="chassis_collision">
-      <origin rpy="${M_PI_2} 0 0" xyz="0 1 -0.2"/>
+<link name="base_fork">
+    <collision name="fork_collision">
+      <origin rpy="${M_PI_2} 0 0" xyz="-1.25 0.8 -0.2"/>
         <geometry>
             <mesh filename="package://forklift_description/meshes/Forklift model/chassis AGV FL.STL" scale="0.001 0.001 0.001"/>
         </geometry>
     </collision>
-    <visual name="chassis_visual">
-      <origin rpy="${M_PI_2} 0 0" xyz="0 1 -0.2"/>
+    <visual name="fork_visual">
+      <origin rpy="${M_PI_2} 0 0" xyz="-1.25 0.8 -0.2"/>
       <geometry>
         <mesh filename="package://forklift_description/meshes/Forklift model/chassis AGV FL.STL" scale="0.001 0.001 0.001"/>
       </geometry>
@@ -58,21 +58,21 @@
     </inertial>
 </link>
 
-<joint name="base_footprint_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0 0"/>
+<joint name="base_fork_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0.25 0"/>
     <parent link="base_footprint"/>
-    <child link="chassis_link"/>
+    <child link="base_fork"/>
 </joint>
 
- <link name="lift_link">
-    <collision name="lift_collision">
-      <origin rpy="${M_PI/2} 0 0" xyz="0 0 0"/>
+ <link name="base_link">
+    <collision name="base_link_collision">
+      <origin rpy="${M_PI/2} 0 0" xyz="-0.6 -1.1 0"/>
         <geometry>
             <mesh filename="package://noovelia_robot_description/meshes/Forklift model/carrosserie lift.STL" scale="0.001 0.001 0.001"/>
         </geometry>
     </collision>
-    <visual name="lift_visual">
-      <origin rpy="${M_PI/2} 0 0" xyz="0 0 0"/>
+    <visual name="base_link_visual">
+      <origin rpy="${M_PI/2} 0 0" xyz="-0.6 -1.1 0"/>
       <geometry>
         <mesh filename="package://noovelia_robot_description/meshes/Forklift model/carrosserie lift.STL" scale="0.001 0.001 0.001"/>
       </geometry>
@@ -81,41 +81,78 @@
     <xacro:default_inertial mass="40" w = "1.1" h = "1.2" d = "0.9"/>
   </link>
 
-  <joint name="lift_joint" type="fixed">
-    <parent link="chassis_link"/>
-    <child link="lift_link"/>
-    <origin xyz="0.6 -1 0.15"/>
+  <joint name="base_link_joint" type="fixed">
+    <parent link="base_fork"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0.08"/>
   </joint>
 
-  <!--main wheel-->
-  <xacro:wheel_link prefix="wheel" mesh = "package://noovelia_robot_description/meshes/Forklift model/Moteur MV300.STL" 
-                  mass= "${wheel_mass}" radius= "${wheel_radius}"
-                  width= "${wheel_width}" origin_rpy="0 0 0"/>
-  <xacro:wheel_joint prefix="wheel" child = "wheel_link" origin_xyz = "1.05 -1.7 0"/>
+      <link name="steer_link">
+        <inertial>
+          <mass value="0.01"/>
+          <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+          <origin/>
+        </inertial>
+        <visual>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+            <box size="0.2 0.2 0.2" />
+          </geometry>
+          <material name="orange"/>
+        </visual>
+      </link>
+      
+      <link name="sd_wheel_link">
+        <inertial>
+          <mass value="10"/>
+          <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01" />
+          <origin/>
+        </inertial>
+        <visual>
+          <origin xyz="0 0 0" rpy="${M_PI_2} 0 ${M_PI_2}" />
+          <geometry>
+            <cylinder radius="0.16" length="0.04" />
+          </geometry>
+          <material name="black"/>
+        </visual>
+        
+        <collision>
+          <origin xyz="0 0 0" rpy="${M_PI_2} 0 ${M_PI_2}" />
+          <geometry>
+            <cylinder radius="0.16" length="0.04" />
+          </geometry>
+        </collision>
+      </link>
+
+      <joint name="base2steer_joint" type="revolute">
+        <parent link="base_link"/>
+        <child link="steer_link"/>
+        <limit effort="10000.0" lower="-${M_PI_2}" upper="${M_PI_2}" velocity="100"/>
+        <origin xyz="0 -1.6 0.05" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+      </joint>
+
+      <joint name="steer2sd_wheel_joint" type="continuous">
+        <parent link="steer_link"/>
+        <child link="sd_wheel_link"/>
+        <limit effort="10000.0" velocity="100"/>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <axis xyz="0 1 0" />
+      </joint>
 
   <!--gazebo references-->
    <gazebo reference="base_footprint">
         <turnGravityOff>false</turnGravityOff>
     </gazebo>
 
-    <gazebo reference="chassis_link">
+    <gazebo reference="base_fork">
         <turnGravityOff>false</turnGravityOff>
         <material>Gazebo/Orange</material>
     </gazebo>
 
-    <gazebo reference="lift_link">
+    <gazebo reference="base_link">
         <turnGravityOff>false</turnGravityOff>
         <material>Gazebo/Orange</material>
-    </gazebo>
-
-    <gazebo reference="wheel_link">
-        <mu1 value="1.0"/>
-        <mu2 value="1.0"/>
-        <kp  value="10000.0" />
-        <kd  value="1.0" />
-        <fdir1 value="1 0 0"/>
-        <material>Gazebo/Grey</material>
-        <turnGravityOff>false</turnGravityOff>
     </gazebo>
 
 </robot>
