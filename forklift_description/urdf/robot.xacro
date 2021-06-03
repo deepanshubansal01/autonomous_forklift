@@ -8,7 +8,7 @@
   <!--the main wheel that perform steer + move behind the lift-->
   <xacro:property name="wheel_width" value="0.06" /> 
   <xacro:property name="wheel_radius" value="0.12" /> 
-  <xacro:property name="wheel_mass" value="4" /> <!-- in kg-->
+  <xacro:property name="wheel_mass" value="10" /> <!-- in kg-->
 
    <xacro:macro name="default_inertial" params="mass w h d yorigin">
     <inertial>
@@ -88,7 +88,7 @@
 
       <link name="steer_link">
         <inertial>
-          <mass value="0.01"/>
+          <mass value="0.05"/>
           <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001" />
           <origin/>
         </inertial>
@@ -103,7 +103,7 @@
       
       <link name="sd_wheel_link">
         <inertial>
-          <mass value="10"/>
+          <mass value="${wheel_mass}"/>
           <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01" />
           <origin/>
         </inertial>
@@ -136,7 +136,7 @@
         <child link="sd_wheel_link"/>
         <limit effort="10000.0" velocity="100"/>
         <origin xyz="0 0 0" rpy="0 0 0" />
-        <axis xyz="0 1 0" />
+        <axis xyz="1 0 0" />
       </joint>
 
       <link name="fixed_left_wheel_link">
@@ -165,8 +165,8 @@
       <joint name="base2fixed_left_wheel_joint" type="continuous">
         <parent link="base_fork"/>
         <child link="fixed_left_wheel_link"/>
-        <origin xyz="0.45 0.05 0.03" rpy="0 0 0" />
-        <axis xyz="0 1 0" />
+        <origin xyz="0.45 0.05 0.02" rpy="0 0 0" />
+        <axis xyz="1 0 0" />
       </joint>
       
       <link name="fixed_right_wheel_link">
@@ -194,8 +194,8 @@
       <joint name="base2fixed_right_wheel_joint" type="continuous">
         <parent link="base_fork"/>
         <child link="fixed_right_wheel_link"/>
-        <origin xyz="-0.6 0.05 0.03" rpy="0 0 0" />
-        <axis xyz="0 1 0" />
+        <origin xyz="-0.6 0.05 0.02" rpy="0 0 0" />
+        <axis xyz="1 0 0" />
       </joint>
 
   <!--gazebo references-->
