@@ -3,6 +3,7 @@
 
   <xacro:property name="M_PI" value="3.1415926535897931" />
   <xacro:property name="M_PI_2" value="1.570796327" />
+  <xacro:property name="M_PI_4" value="0.785" />
   <xacro:property name="DEG_TO_RAD" value="0.017453293" />
 
   <!--the main wheel that perform steer + move behind the lift-->
@@ -51,7 +52,7 @@
       <material name="white"/>
     </visual>
     <inertial>
-      <origin rpy="0 0 0" xyz="0 -0.2 0.3"/>
+      <origin rpy="0 0 0" xyz="0 -0.1 0.4"/>
       <mass value="40" />
     <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1" />
     </inertial>
@@ -126,8 +127,8 @@
       <joint name="base2steer_joint" type="revolute">
         <parent link="base_link"/>
         <child link="steer_link"/>
-        <limit effort="10000.0" lower="-${M_PI_2}" upper="${M_PI_2}" velocity="100"/>
-        <origin xyz="0 -1.6 0" rpy="0 0 0" />
+        <limit effort="10000.0" lower="-${M_PI_4}" upper="${M_PI_4}" velocity="100"/>
+        <origin xyz="0 -1.7 0" rpy="0 0 0" />
         <axis xyz="0 0 1" />
       </joint>
 
@@ -219,19 +220,27 @@
     </gazebo>
 
     <gazebo reference="fixed_left_wheel_link" >
+      <mu1 value="10000.0" />
+      <mu2 value="10000.0" />
+      <kp  value="10000000000.0" />
+      <kd  value="1.0" />
       <material>Gazebo/Black</material>
     </gazebo>
 
     <gazebo reference="fixed_right_wheel_link" >
+      <mu1 value="10000.0" />
+      <mu2 value="10000.0" />
+      <kp  value="10000000000.0" />
+      <kd  value="1.0" />
       <material>Gazebo/Black</material>
     </gazebo>
 
     <gazebo reference="sd_wheel_link" >
-    <mu1 value="10000.0" />
-    <mu2 value="10000.0" />
-    <kp  value="10000000000.0" />
-    <kd  value="1.0" />
-      <material>Gazebo/Black</material>
+      <mu1 value="10000.0" />
+      <mu2 value="10000.0" />
+      <kp  value="10000000000.0" />
+      <kd  value="1.0" />
+    <material>Gazebo/Black</material>
   </gazebo>
      
       <!-- ros_control plugin -->
