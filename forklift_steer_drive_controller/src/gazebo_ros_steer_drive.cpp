@@ -71,8 +71,8 @@ void GazeboRosSteerDrive::Load ( physics::ModelPtr _parent, sdf::ElementPtr _sdf
     joint_drive_ = gazebo_ros_->getJoint ( parent, "driveJoint", "drive_joint" );
 
     // Note, this joints are not used for anything apart from getting the TF's.
-    joint_fixed_wheel_left_ = gazebo_ros_->getJoint ( parent, "fixedWheelLeftJoint", "fixed_wheel_left_joint" );
-    joint_fixed_wheel_right_ = gazebo_ros_->getJoint ( parent, "fixedWheelRightJoint", "fixed_wheel_right_joint" );
+    // joint_fixed_wheel_left_ = gazebo_ros_->getJoint ( parent, "fixedWheelLeftJoint", "fixed_wheel_left_joint" );
+    // joint_fixed_wheel_right_ = gazebo_ros_->getJoint ( parent, "fixedWheelRightJoint", "fixed_wheel_right_joint" );
 
     std::map<std::string, OdomSource> odomOptions;
     odomOptions["encoder"] = ENCODER;
@@ -137,8 +137,8 @@ void GazeboRosSteerDrive::publishWheelJointState()
     std::vector<physics::JointPtr> joints;
     joints.push_back ( joint_drive_ );
     joints.push_back ( joint_steer_ );
-    joints.push_back( joint_fixed_wheel_left_ );
-    joints.push_back( joint_fixed_wheel_right_ );
+    // joints.push_back( joint_fixed_wheel_left_ );
+    // joints.push_back( joint_fixed_wheel_right_ );
 
     ros::Time current_time = ros::Time::now();
     joint_state_.header.stamp = current_time;
@@ -165,8 +165,8 @@ void GazeboRosSteerDrive::publishWheelTF()
     std::vector<physics::JointPtr> joints;
     joints.push_back ( joint_steer_ );
     joints.push_back ( joint_drive_ );
-    joints.push_back( joint_fixed_wheel_left_ );
-    joints.push_back( joint_fixed_wheel_right_ );
+    // joints.push_back( joint_fixed_wheel_left_ );
+    // joints.push_back( joint_fixed_wheel_right_ );
 
     for ( std::size_t i = 0; i < joints.size(); i++ ) {
         std::string frame = gazebo_ros_->resolveTF ( joints[i]->GetName() );

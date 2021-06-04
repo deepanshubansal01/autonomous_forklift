@@ -64,8 +64,8 @@ private:
 
     physics::JointPtr joint_steer_;
     physics::JointPtr joint_drive_;
-    physics::JointPtr joint_fixed_wheel_left_;
-    physics::JointPtr joint_fixed_wheel_right_;
+    //physics::JointPtr joint_fixed_wheel_left_;
+    //physics::JointPtr joint_fixed_wheel_right_;
 
     double wheel_diameter_;
     double wheel_acceleration_;
