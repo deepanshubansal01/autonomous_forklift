@@ -8,6 +8,13 @@
     <arg name="headless" default="false"/>
     <arg name="debug" default="false"/>
     <arg name="model" default="$(find forklift_description)/urdf/robot.xacro"/>
+
+    <arg name="robot_pose_x" default="0"/>
+    <arg name="robot_pose_y" default="0"/>
+    <arg name="robot_pose_z" default="0"/>
+    <arg name="robot_pose_roll" default="0"/>
+    <arg name="robot_pose_pitch" default="0"/>
+    <arg name="robot_pose_yaw" default="0"/>
   
     <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -24,6 +31,8 @@
   
     <!-- push robot_description to factory and spawn robot in gazebo -->
     <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
- 		  args="-urdf -model forklift -param robot_description" />
+ 		  args="-urdf -model forklift -param robot_description
+       -x $(arg robot_pose_x) -y $(arg robot_pose_y) -z $(arg robot_pose_z) 
+       -R $(arg robot_pose_roll) -P $(arg robot_pose_pitch) -Y $(arg robot_pose_yaw)" />
 
   </launch>
