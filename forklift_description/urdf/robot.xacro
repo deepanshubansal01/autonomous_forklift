@@ -6,6 +6,17 @@
   <xacro:property name="M_PI_4" value="0.785" />
   <xacro:property name="DEG_TO_RAD" value="0.017453293" />
 
+  <!--laser properties -->
+	<xacro:property name="laserMass" value="0.01"/>
+	<xacro:property name="laserLength" value="0.05"/>
+	<xacro:property name="laserWidth" value="0.05"/>
+	<xacro:property name="laserHeight" value="0.07"/>
+	<xacro:property name="laserOffsetX" value="0"/>
+  <xacro:property name="laserOffsetY" value="-0.7"/>
+	<!--xacro:property name="laserOffsetX" value="0.05"/-->
+	<xacro:property name="laserOffsetZ" value="2.8"/>
+	<!--xacro:property name="laserOffsetZ" value="0.1125"/-->
+
   <!--the main wheel that perform steer + move behind the lift-->
   <xacro:property name="wheel_width" value="0.09" /> 
   <xacro:property name="wheel_radius" value="0.12" /> 
@@ -25,9 +36,16 @@
                 izz="${m*r*r/2}" /> 
   </xacro:macro>
 
+  <xacro:macro name="box_inertia" params="m x y z">
+    <inertia  ixx="${m*(y*y+z*z)/12}" ixy = "0" ixz = "0"
+    			iyy="${m*(x*x+z*z)/12}" iyz = "0"
+    			izz="${m*(x*x+z*z)/12}"
+    />
+  </xacro:macro>
+
   <xacro:include filename="$(find forklift_description)/urdf/material.xacro" />
 
-  <!-- base_footprint is a fictitious link(frame) that is on the ground right below base_fork origin -->
+<!-- base_footprint is a fictitious link(frame) that is on the ground right below base_link origin, navigation stack dedpends on this frame and KDL needs a root link without any intertia -->
   <link name="base_footprint">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -68,13 +86,13 @@
     <collision name="base_link_collision">
       <origin rpy="${M_PI/2} 0 0" xyz="-0.6 -1.1 -${wheel_radius}"/>
         <geometry>
-            <mesh filename="package://noovelia_robot_description/meshes/Forklift model/carrosserie lift.STL" scale="0.001 0.001 0.001"/>
+            <mesh filename="package://forklift_description/meshes/Forklift model/carrosserie lift.STL" scale="0.001 0.001 0.001"/>
         </geometry>
     </collision>
     <visual name="base_link_visual">
       <origin rpy="${M_PI/2} 0 0" xyz="-0.6 -1.1 -${wheel_radius}"/>
       <geometry>
-        <mesh filename="package://noovelia_robot_description/meshes/Forklift model/carrosserie lift.STL" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://forklift_description/meshes/Forklift model/carrosserie lift.STL" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="red"/>
     </visual>
@@ -149,7 +167,7 @@
         <visual>
           <origin xyz="0 0.11 0" rpy="1.57 0 0" />
           <geometry>
-            <mesh filename="package://noovelia_robot_description/meshes/Forklift model/Roues avant.STL" scale="0.001 0.001 0.001"/>
+            <mesh filename="package://forklift_description/meshes/Forklift model/Roues avant.STL" scale="0.001 0.001 0.001"/>
           </geometry>
           <material name="grey"/>
         </visual>
@@ -157,7 +175,7 @@
         <collision>
           <origin xyz="0 0.11 0" rpy="1.57 0 0" />
           <geometry>
-            <mesh filename="package://noovelia_robot_description/meshes/Forklift model/Roues avant.STL" scale="0.001 0.001 0.001"/>
+            <mesh filename="package://forklift_description/meshes/Forklift model/Roues avant.STL" scale="0.001 0.001 0.001"/>
           </geometry>
          <!-- <contact_coefficients mu="100" kp="10.0" kd="0.1"/> -->
         </collision>
@@ -179,14 +197,14 @@
         <visual>
           <origin xyz="0 0.11 0" rpy="1.57 0 0" />
           <geometry>
-            <mesh filename="package://noovelia_robot_description/meshes/Forklift model/Roues avant.STL" scale="0.001 0.001 0.001"/>
+            <mesh filename="package://forklift_description/meshes/Forklift model/Roues avant.STL" scale="0.001 0.001 0.001"/>
           </geometry>
           <material name="grey"/>
         </visual>
         <collision>
           <origin xyz="0 0.11 0" rpy="1.57 0 0" />
           <geometry>
-            <mesh filename="package://noovelia_robot_description/meshes/Forklift model/Roues avant.STL" scale="0.001 0.001 0.001"/>
+            <mesh filename="package://forklift_description/meshes/Forklift model/Roues avant.STL" scale="0.001 0.001 0.001"/>
           </geometry>
          <!-- <contact_coefficients mu="100" kp="10.0" kd="0.1"/> -->
         </collision>
@@ -198,6 +216,36 @@
         <origin xyz="-0.6 0.05 0.02" rpy="0 0 0" />
         <!-- <axis xyz="1 0 0" /> -->
       </joint>
+
+   <!--Laser -->
+  <link name="laser_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${laserLength} ${laserWidth} ${laserHeight}"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://forklift_description/meshes/Forklift model/sick_s300_laser.dae"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="${laserMass}" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <xacro:box_inertia 
+        m="${laserMass}" x="${laserLength}" y="${laserWidth}" z="${laserHeight}"/>
+    </inertial>
+  </link>
+
+  <joint name="laser_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz="${laserOffsetX} ${laserOffsetY} ${laserOffsetZ}" 
+            rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="laser_link"/>
+  </joint>
 
   <!--gazebo references-->
    <gazebo reference="base_footprint">
@@ -242,7 +290,8 @@
       <kd  value="1.0" />
     <material>Gazebo/Black</material>
   </gazebo>
-     
+
+ 
       <!-- ros_control plugin -->
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
