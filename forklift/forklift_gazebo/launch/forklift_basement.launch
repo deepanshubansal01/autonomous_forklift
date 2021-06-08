@@ -15,16 +15,14 @@
     <arg name="robot_pose_roll" default="0"/>
     <arg name="robot_pose_pitch" default="0"/>
     <arg name="robot_pose_yaw" default="0"/>
-  
-    <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
-    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+
+    <include file="$(find gazebo_worlds_noovelia)/launch/basement_world.launch">
       <arg name="debug" value="$(arg debug)" />
       <arg name="gui" value="$(arg gui)" />
       <arg name="paused" value="$(arg paused)"/>
       <arg name="use_sim_time" value="$(arg use_sim_time)"/>
-      <arg name="headless" value="$(arg headless)"/>
     </include>
-  
+
     <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
 
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
