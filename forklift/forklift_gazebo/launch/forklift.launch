@@ -7,7 +7,7 @@
     <arg name="gui" default="true"/>
     <arg name="headless" default="false"/>
     <arg name="debug" default="false"/>
-    <arg name="model" default="$(find forklift_description)/urdf/robot.xacro"/>
+    <arg name="model" default="$(find forklift_description)/urdf/forklift.xacro"/>
 
     <arg name="robot_pose_x" default="0"/>
     <arg name="robot_pose_y" default="0"/>
@@ -25,7 +25,6 @@
       <arg name="headless" value="$(arg headless)"/>
     </include>
   
-
     <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
 
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />

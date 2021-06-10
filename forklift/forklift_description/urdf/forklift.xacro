@@ -11,11 +11,15 @@
 
   <!--#### back/carrosserie LIFT properties ####-->
   <xacro:property name= "carrosserie_lift_width" value="1.2" />
+  <xacro:property name= "carrosserie_lift_length" value="0.7" />
+  <xacro:property name= "carrosserie_lift_height" value="1.1" />
+  <xacro:property name= "carrosserie_lift_mass" value="35" />
   <!-- Offset between link and lift mesh for proper placement-->
   <xacro:property name= "carrosserie_lift_z_offset" value="0.065" /> 
   <xacro:property name= "carrosserie_lift_x_offset" value="1.24" /> 
 
   <!--#### LIFT chassis/base fork properties ####-->
+  <xacro:property name= "chassis_mass" value="40" /> 
   <xacro:property name= "chassis_x_offset" value="0.93" /> 
   <xacro:property name= "chassis_y_offset" value="1.24" /> 
   <xacro:property name= "chassis_z_offset" value="0.28" /> 
@@ -56,7 +60,6 @@
     <parent link="base_footprint"/>
   </joint>
 
-
   <link name="base_link">
     <collision name="base_link_collision">
       <origin rpy="${M_PI_2} 0 ${M_PI_2}" 
@@ -79,6 +82,18 @@
       </geometry>
       <material name="red"/>
     </visual>
+    <inertial>
+      <mass value="${carrosserie_lift_mass}" />
+      <origin xyz="${carrosserie_lift_x_offset + carrosserie_lift_length/2} 
+                   0 
+                   ${carrosserie_lift_height/2}" 
+              rpy="0 0 0"/>
+      <xacro:box_inertia 
+        m="${carrosserie_lift_mass}" 
+        x="${carrosserie_lift_width}" 
+        y="${carrosserie_lift_length}" 
+        z="${carrosserie_lift_height}"/>
+    </inertial>
   </link>
 
   <joint name="fork_joint" type="fixed">
@@ -112,11 +127,13 @@
     </visual>
     <inertial>
       <origin rpy="0 0 0"
-              xyz="0 0 0"/>
-      <mass value="40" />
-      <inertia ixx="0.1" ixy="0.0" 
-               ixz="0.0" iyy="0.1" 
-               iyz="0.0" izz="0.1" />
+              xyz="0 
+                   0 
+                   0.2"/>
+      <mass value="${chassis_mass}" />
+      <inertia ixx="0.08" ixy="0.0" 
+               ixz="0.0" iyy="0.08" 
+               iyz="0.0" izz="0.08" />
     </inertial>
   </link>
 
