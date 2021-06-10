@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="model" default="$(find forklift_description)/urdf/robot.xacro"/>
-  <arg name="rvizconfig" default="$(find forklift_description)/launch/test.rviz" />
+  <arg name="model" default="$(find forklift_description)/urdf/forklift.xacro"/>
+  <arg name="rvizconfig" default="$(find forklift_description)/launch/tes1.rviz" />
 
   <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
 
