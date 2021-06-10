@@ -95,7 +95,7 @@
       <mass value="${carrosserie_lift_mass}" />
       <origin xyz="${carrosserie_lift_x_offset + carrosserie_lift_length/2} 
                    0 
-                   ${carrosserie_lift_height/2}" 
+                   0.1" 
               rpy="0 0 0"/>
       <xacro:box_inertia 
         m="${carrosserie_lift_mass}" 
