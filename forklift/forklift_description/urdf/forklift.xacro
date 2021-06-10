@@ -24,11 +24,20 @@
   <xacro:property name= "chassis_y_offset" value="1.24" /> 
   <xacro:property name= "chassis_z_offset" value="0.28" /> 
 
-  <!--### main wheel properties that performs steer + move ####-->
+  <!--#### main wheel properties that performs steer + move ####-->
   <xacro:property name="wheel_width" value="0.08" /> 
   <xacro:property name="wheel_radius" value="0.10" /> 
   <xacro:property name="wheel_mass" value="10" /> <!-- in kg-->
   <xacro:property name="wheel_x_offset" value="1.7" /> <!-- in kg-->
+
+  <!--#### Navigation Laser properties ####-->
+	<xacro:property name="laser_mass" value="0.01"/>
+	<xacro:property name="laser_length" value="0.05"/>
+	<xacro:property name="laser_width" value="0.05"/>
+	<xacro:property name="laser_height" value="0.07"/>
+	<xacro:property name="laser_offset_x" value="0.75"/>
+  <xacro:property name="laser_offset_y" value="0"/>
+	<xacro:property name="laser_offset_z" value="2.8"/>
 
   <!--### caster/fixed wheel properties ####-->
   <xacro:property name="caster_radius" value="0.06" /> 
@@ -268,6 +277,41 @@
     <axis xyz="0 1 0" />
   </joint>
 
+   <!--Navigation Laser -->
+  <link name="laser_link">
+    <collision>
+      <origin xyz="0 0 0" 
+              rpy="0 0 0"/>
+      <geometry>
+        <box size="${laser_length} ${laser_width} ${laser_height}"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0" 
+              rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://forklift_description/meshes/Forklift model/sick_s300_laser.dae"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="${laser_mass}" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <xacro:box_inertia 
+        m = "${laser_mass}" 
+        x = "${laser_length}" 
+        y = "${laser_width}" 
+        z = "${laser_height}"/>
+    </inertial>
+  </link>
+
+  <joint name="laser_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz="${laser_offset_x} ${laser_offset_y} ${laser_offset_z}" 
+            rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="laser_link"/>
+  </joint>
+
  <!--#### GAZEBO references ####-->
   <gazebo reference="base_footprint">
     <turnGravityOff>false</turnGravityOff>
@@ -326,24 +370,59 @@
       <driveJoint>steer2sd_wheel_joint</driveJoint>
       <!-- <fixedWheelLeftJoint>base2fixed_left_wheel_joint</fixedWheelLeftJoint>
       <fixedWheelRightJoint>base2fixed_right_wheel_joint</fixedWheelRightJoint> -->
-
       <wheelDiameter>${2*wheel_radius}</wheelDiameter>
       <steeringFixWheelDistanceX>1.190</steeringFixWheelDistanceX>
       <steeringFixWheelDistanceY>0.0</steeringFixWheelDistanceY>
-      
       <steerTorque>1000</steerTorque>
       <driveTorque>1000</driveTorque>
-
       <commandTopic>cmd_vel</commandTopic>
       <odometryTopic>odom</odometryTopic>
       <odometryFrame>/world</odometryFrame>
       <robotBaseFrame>base_footprint</robotBaseFrame>
-
       <wheelAcceleration>0.5</wheelAcceleration>
       <odomEncSteeringAngleOffset>0.01</odomEncSteeringAngleOffset>
       <!--odometrySource>encoder</odometrySource-->
       <publishWheelJointState>true</publishWheelJointState>
     </plugin>
+  </gazebo>
+
+ <gazebo reference="laser_link">
+    <!-- Don't use type="gpu_ray" -->
+    <sensor type="ray"
+            name="nav_sensor">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>false</visualize>
+      <update_rate>40</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-3.1415926</min_angle>
+            <max_angle>3.1415926</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.10</min>
+          <max>30.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise parameters based on published spec for Hokuyo laser
+               achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
+               stddev of 0.01m will put 99.7% of samples within 0.03m of the true
+               reading. -->
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+        <plugin name="gazebo_ros_laser_controller" 
+              filename="libgazebo_ros_laser.so">
+        <topicName>/laser/scan</topicName>
+        <frameName>laser_link</frameName>
+      </plugin>
+    </sensor>
   </gazebo>
 
 </robot>
