@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
-<robot name="noovelia_forklift" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="noovelia_forklift"
+  xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <xacro:include filename="$(find forklift_description)/urdf/material.xacro" />
 
@@ -15,47 +16,44 @@
   <xacro:property name= "carrosserie_lift_height" value="1.1" />
   <xacro:property name= "carrosserie_lift_mass" value="35" />
   <!-- Offset between link and lift mesh for proper placement-->
-  <xacro:property name= "carrosserie_lift_z_offset" value="0.065" /> 
-  <xacro:property name= "carrosserie_lift_x_offset" value="1.24" /> 
+  <xacro:property name= "carrosserie_lift_z_offset" value="0.065" />
+  <xacro:property name= "carrosserie_lift_x_offset" value="1.24" />
 
   <!--#### LIFT chassis/base fork properties ####-->
-  <xacro:property name= "chassis_mass" value="40" /> 
-  <xacro:property name= "chassis_x_offset" value="0.93" /> 
-  <xacro:property name= "chassis_y_offset" value="1.24" /> 
-  <xacro:property name= "chassis_z_offset" value="0.28" /> 
+  <xacro:property name= "chassis_mass" value="40" />
+  <xacro:property name= "chassis_x_offset" value="0.93" />
+  <xacro:property name= "chassis_y_offset" value="1.24" />
+  <xacro:property name= "chassis_z_offset" value="0.28" />
 
   <!--#### main wheel properties that performs steer + move ####-->
-  <xacro:property name="wheel_width" value="0.08" /> 
-  <xacro:property name="wheel_radius" value="0.10" /> 
-  <xacro:property name="wheel_mass" value="10" /> <!-- in kg-->
-  <xacro:property name="wheel_x_offset" value="1.7" /> <!-- in kg-->
+  <xacro:property name="wheel_width" value="0.08" />
+  <xacro:property name="wheel_radius" value="0.10" />
+  <xacro:property name="wheel_mass" value="10" />
+  <!-- in kg-->
+  <xacro:property name="wheel_x_offset" value="1.7" />
+  <!-- in kg-->
 
   <!--#### Navigation Laser properties ####-->
-	<xacro:property name="laser_mass" value="0.01"/>
-	<xacro:property name="laser_length" value="0.05"/>
-	<xacro:property name="laser_width" value="0.05"/>
-	<xacro:property name="laser_height" value="0.07"/>
-	<xacro:property name="laser_offset_x" value="0.75"/>
+  <xacro:property name="laser_mass" value="0.01"/>
+  <xacro:property name="laser_length" value="0.05"/>
+  <xacro:property name="laser_width" value="0.05"/>
+  <xacro:property name="laser_height" value="0.07"/>
+  <xacro:property name="laser_offset_x" value="0.75"/>
   <xacro:property name="laser_offset_y" value="0"/>
-	<xacro:property name="laser_offset_z" value="2.8"/>
+  <xacro:property name="laser_offset_z" value="2.8"/>
 
   <!--### caster/fixed wheel properties ####-->
-  <xacro:property name="caster_radius" value="0.06" /> 
-  <xacro:property name="caster_length" value="0.16" /> 
-  <xacro:property name="caster_y_offset" value="0.52" /> 
+  <xacro:property name="caster_radius" value="0.06" />
+  <xacro:property name="caster_length" value="0.16" />
+  <xacro:property name="caster_y_offset" value="0.52" />
 
   <!--#### Intertia Elements of various objects and shapes ####-->
   <xacro:macro name="cylinder_inertia" params="m r h">
-      <inertia  ixx="${m*(3*r*r+h*h)/12}" ixy = "0" ixz = "0"
-                iyy="${m*(3*r*r+h*h)/12}" iyz = "0"
-                izz="${m*r*r/2}" /> 
+    <inertia ixx="${m*(3*r*r+h*h)/12}" ixy = "0" ixz = "0" iyy="${m*(3*r*r+h*h)/12}" iyz = "0" izz="${m*r*r/2}" />
   </xacro:macro>
 
   <xacro:macro name="box_inertia" params="m x y z">
-    <inertia  ixx="${m*(y*y+z*z)/12}" ixy = "0" ixz = "0"
-    			iyy="${m*(x*x+z*z)/12}" iyz = "0"
-    			izz="${m*(x*x+z*z)/12}"
-  />
+    <inertia ixx="${m*(y*y+z*z)/12}" ixy = "0" ixz = "0" iyy="${m*(x*x+z*z)/12}" iyz = "0" izz="${m*(x*x+z*z)/12}" />
   </xacro:macro>
 
   <!--#### Links and Joints of Forklift ####-->
@@ -63,31 +61,26 @@
   </link>
 
   <joint name="base_footprint_joint" type="fixed">
-    <origin xyz="0 0 ${caster_radius}" 
-            rpy="0 0 0" />
+    <origin xyz="0 0 ${caster_radius}" rpy="0 0 0" />
     <child link="base_link" />
     <parent link="base_footprint"/>
   </joint>
 
   <link name="base_link">
     <collision name="base_link_collision">
-      <origin rpy="${M_PI_2} 0 ${M_PI_2}" 
-              xyz="${carrosserie_lift_x_offset} 
+      <origin rpy="${M_PI_2} 0 ${M_PI_2}" xyz="${carrosserie_lift_x_offset} 
                   -${carrosserie_lift_width/2} 
                   -${carrosserie_lift_z_offset}"/>
       <geometry>
-        <mesh filename="package://forklift_description/meshes/Forklift model/carrosserie lift.STL" 
-              scale="0.001 0.001 0.001"/>
+        <mesh filename="package://forklift_description/meshes/Forklift model/carrosserie lift.STL" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <visual name="base_link_visual">
-      <origin rpy="${M_PI_2} 0 ${M_PI_2}" 
-              xyz="${carrosserie_lift_x_offset}  
+      <origin rpy="${M_PI_2} 0 ${M_PI_2}" xyz="${carrosserie_lift_x_offset}  
                   -${carrosserie_lift_width/2} 
                   -${carrosserie_lift_z_offset}"/>
       <geometry>
-        <mesh filename="package://forklift_description/meshes/Forklift model/carrosserie lift.STL" 
-              scale="0.001 0.001 0.001"/>
+        <mesh filename="package://forklift_description/meshes/Forklift model/carrosserie lift.STL" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="red"/>
     </visual>
@@ -95,137 +88,108 @@
       <mass value="${carrosserie_lift_mass}" />
       <origin xyz="${carrosserie_lift_x_offset + carrosserie_lift_length/2} 
                    0 
-                   0.1" 
-              rpy="0 0 0"/>
-      <xacro:box_inertia 
-        m="${carrosserie_lift_mass}" 
-        x="${carrosserie_lift_width}" 
-        y="${carrosserie_lift_length}" 
-        z="${carrosserie_lift_height}"/>
+                   0.1" rpy="0 0 0"/>
+      <xacro:box_inertia m="${carrosserie_lift_mass}" x="${carrosserie_lift_width}" y="${carrosserie_lift_length}" z="${carrosserie_lift_height}"/>
     </inertial>
   </link>
 
   <joint name="fork_joint" type="fixed">
-    <origin xyz="0.18 0.0 0.0" 
-            rpy="0 0 0" />
+    <origin xyz="0.18 0.0 0.0" rpy="0 0 0" />
     <parent link="base_link" />
     <child link="base_fork"/>
   </joint>
 
   <link name="base_fork">
     <collision name="fork_collision">
-      <origin rpy="${M_PI_2} 0 ${M_PI_2}" 
-              xyz="-${chassis_x_offset} 
+      <origin rpy="${M_PI_2} 0 ${M_PI_2}" xyz="-${chassis_x_offset} 
                    -${chassis_y_offset} 
                    -${chassis_z_offset}"/>
       <geometry>
-        <mesh filename="package://forklift_description/meshes/Forklift model/chassis AGV FL.STL" 
-              scale="0.001 0.001 0.001"/>
+        <mesh filename="package://forklift_description/meshes/Forklift model/chassis AGV FL.STL" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <visual name="fork_visual">
-      <origin rpy="${M_PI_2} 0 ${M_PI_2}" 
-              xyz="-${chassis_x_offset} 
+      <origin rpy="${M_PI_2} 0 ${M_PI_2}" xyz="-${chassis_x_offset} 
                    -${chassis_y_offset} 
                    -${chassis_z_offset}"/>
       <geometry>
-        <mesh filename="package://forklift_description/meshes/Forklift model/chassis AGV FL.STL" 
-              scale="0.001 0.001 0.001"/>
+        <mesh filename="package://forklift_description/meshes/Forklift model/chassis AGV FL.STL" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="white"/>
     </visual>
     <inertial>
-      <origin rpy="0 0 0"
-              xyz="0 
+      <origin rpy="0 0 0" xyz="0 
                    0 
                    0.2"/>
       <mass value="${chassis_mass}" />
-      <inertia ixx="0.08" ixy="0.0" 
-               ixz="0.0" iyy="0.08" 
-               iyz="0.0" izz="0.08" />
+      <inertia ixx="0.08" ixy="0.0" ixz="0.0" iyy="0.08" iyz="0.0" izz="0.08" />
     </inertial>
   </link>
 
   <link name="fixed_left_wheel_link">
     <inertial>
       <mass value="0.2"/>
-      <inertia ixx="0.01" ixy="0" 
-               ixz="0" iyy="0.01" 
-               iyz="0" izz="0.01" />
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01" />
       <origin/>
     </inertial>
     <visual name="fixed_left_wheel_visual">
-      <origin xyz="0 0 0" 
-              rpy="${M_PI_2} 0 0" />
+      <origin xyz="0 0 0" rpy="${M_PI_2} 0 0" />
       <geometry>
-        <cylinder radius="${caster_radius}" 
-                  length="${caster_length}" />
-      </geometry>
-      <material name="grey"/>
-    </visual>    
-    <collision name="fixed_left_wheel_collision">
-      <origin xyz="0 0 0" 
-              rpy="${M_PI_2} 0 0" />
-      <geometry>
-        <cylinder radius="${caster_radius}" 
-                  length="${caster_length}" />
-      </geometry>
-      <!-- <contact_coefficients mu="100" kp="10.0" kd="0.1"/> -->
-    </collision>
-  </link>
-      
-  <joint name="base2fixed_left_wheel_joint" type="continuous">
-    <parent link="base_link"/>
-    <child link="fixed_left_wheel_link"/>
-    <origin xyz="0 ${caster_y_offset} 0" 
-            rpy="0 0 0" />
-    <axis xyz="0 1 0" />
-  </joint>
-      
-  <link name="fixed_right_wheel_link">
-    <inertial>
-      <mass value="0.2"/>
-      <inertia ixx="0.01" ixy="0" 
-               ixz="0" iyy="0.01" 
-               iyz="0" izz="0.01" />
-      <origin/>
-    </inertial>
-    <visual>
-      <origin xyz="0 0 0" 
-              rpy="${M_PI_2} 0 0" />
-      <geometry>
-        <cylinder radius="${caster_radius}"  
-                  length="${caster_length}" />
+        <cylinder radius="${caster_radius}" length="${caster_length}" />
       </geometry>
       <material name="grey"/>
     </visual>
-    <collision>
-      <origin xyz="0 0 0" 
-              rpy="${M_PI_2} 0 0" />
+    <collision name="fixed_left_wheel_collision">
+      <origin xyz="0 0 0" rpy="${M_PI_2} 0 0" />
       <geometry>
-        <cylinder radius="${caster_radius}" 
-                  length="${caster_length}" />
+        <cylinder radius="${caster_radius}" length="${caster_length}" />
       </geometry>
       <!-- <contact_coefficients mu="100" kp="10.0" kd="0.1"/> -->
     </collision>
   </link>
 
-  <joint name="base2fixed_right_wheel_joint" type="continuous">
+  <joint name="base2fixed_left_wheel_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="fixed_left_wheel_link"/>
+    <origin xyz="0 ${caster_y_offset} 0" rpy="0 0 0" />
+    <!-- <axis xyz="0 1 0" /> -->
+  </joint>
+
+  <link name="fixed_right_wheel_link">
+    <inertial>
+      <mass value="0.2"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01" />
+      <origin/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="${M_PI_2} 0 0" />
+      <geometry>
+        <cylinder radius="${caster_radius}" length="${caster_length}" />
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="${M_PI_2} 0 0" />
+      <geometry>
+        <cylinder radius="${caster_radius}" length="${caster_length}" />
+      </geometry>
+      <!-- <contact_coefficients mu="100" kp="10.0" kd="0.1"/> -->
+    </collision>
+  </link>
+
+  <joint name="base2fixed_right_wheel_joint" type="fixed">
     <parent link="base_link"/>
     <child link="fixed_right_wheel_link"/>
-    <origin xyz="0 -${caster_y_offset} 0" 
-            rpy="0 0 0" />
-    <axis xyz="0 1 0" />
+    <origin xyz="0 -${caster_y_offset} 0" rpy="0 0 0" />
+    <!-- <axis xyz="0 1 0" /> -->
   </joint>
 
   <link name="steer_link">
     <inertial>
       <mass value="0.01"/>
-      <inertia ixx="0.001" ixy="0" 
-               ixz="0" iyy="0.001" 
-               iyz="0" izz="0.001" />
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001" />
       <origin/>
-      </inertial>
+    </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
@@ -234,29 +198,24 @@
       <material name="orange"/>
     </visual>
   </link>
-      
+
   <link name="sd_wheel_link">
     <inertial>
       <mass value="10"/>
-      <inertia ixx="0.01" ixy="0" 
-               ixz="0" iyy="0.01" 
-               iyz="0" izz="0.01" />
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01" />
       <origin/>
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="${M_PI_2} 0 0" />
       <geometry>
-        <cylinder radius="${wheel_radius}" 
-                  length="${wheel_width}" />
+        <cylinder radius="${wheel_radius}" length="${wheel_width}" />
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
-      <origin xyz="0 0 0" 
-              rpy="${M_PI_2} 0 0" />
+      <origin xyz="0 0 0" rpy="${M_PI_2} 0 0" />
       <geometry>
-        <cylinder radius="${wheel_radius}" 
-                  length="${wheel_width}" />
+        <cylinder radius="${wheel_radius}" length="${wheel_width}" />
       </geometry>
     </collision>
   </link>
@@ -277,18 +236,16 @@
     <axis xyz="0 1 0" />
   </joint>
 
-   <!--Navigation Laser -->
+  <!--Navigation Laser -->
   <link name="laser_link">
     <collision>
-      <origin xyz="0 0 0" 
-              rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <box size="${laser_length} ${laser_width} ${laser_height}"/>
       </geometry>
     </collision>
     <visual>
-      <origin xyz="0 0 0" 
-              rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="package://forklift_description/meshes/Forklift model/sick_s300_laser.dae"/>
       </geometry>
@@ -306,13 +263,12 @@
 
   <joint name="laser_joint" type="fixed">
     <axis xyz="0 1 0" />
-    <origin xyz="${laser_offset_x} ${laser_offset_y} ${laser_offset_z}" 
-            rpy="0 0 0"/>
+    <origin xyz="${laser_offset_x} ${laser_offset_y} ${laser_offset_z}" rpy="0 0 0"/>
     <parent link="base_link"/>
     <child link="laser_link"/>
   </joint>
 
- <!--#### GAZEBO references ####-->
+  <!--#### GAZEBO references ####-->
   <gazebo reference="base_footprint">
     <turnGravityOff>false</turnGravityOff>
   </gazebo>
@@ -331,38 +287,38 @@
     <material>Gazebo/Blue</material>
   </gazebo>
 
-  <gazebo reference="fixed_left_wheel_link" >
+  <gazebo reference="fixed_left_wheel_link">
     <!-- <mu1 value="10000.0" />
     <mu2 value="10000.0" />
-    <kp  value="10000000000.0" />
-    <kd  value="1.0" /> -->
+    <kp value="10000000000.0" />
+    <kd value="1.0" /> -->
     <material>Gazebo/Black</material>
   </gazebo>
 
-  <gazebo reference="fixed_right_wheel_link" >
+  <gazebo reference="fixed_right_wheel_link">
     <!-- <mu1 value="10000.0" />
     <mu2 value="10000.0" />
-    <kp  value="10000000000.0" />
-    <kd  value="1.0" /> -->
+    <kp value="10000000000.0" />
+    <kd value="1.0" /> -->
     <material>Gazebo/Black</material>
   </gazebo>
 
-  <gazebo reference="sd_wheel_link" >
+  <gazebo reference="sd_wheel_link">
     <mu1 value="10000.0" />
     <mu2 value="10000.0" />
-    <kp  value="10000000000.0" />
-    <kd  value="1.0" />
-  <material>Gazebo/Black</material>
+    <kp value="10000000000.0" />
+    <kd value="1.0" />
+    <material>Gazebo/Black</material>
   </gazebo>
 
   <!-- ros_control plugin -->
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-<!--      <robotNamespace>/forklift</robotNamespace> -->
+      <!--      <robotNamespace>/forklift</robotNamespace> -->
     </plugin>
   </gazebo>
 
-   <gazebo>
+  <gazebo>
     <plugin name="steer_drive_controller" filename="libgazebo_ros_steer_drive.so">
       <alwaysOn>true</alwaysOn>
       <updateRate>100</updateRate>
@@ -386,10 +342,9 @@
     </plugin>
   </gazebo>
 
- <gazebo reference="laser_link">
+  <gazebo reference="laser_link">
     <!-- Don't use type="gpu_ray" -->
-    <sensor type="ray"
-            name="nav_sensor">
+    <sensor type="ray" name="nav_sensor">
       <pose>0 0 0 0 0 0</pose>
       <visualize>false</visualize>
       <update_rate>40</update_rate>
@@ -417,8 +372,7 @@
           <stddev>0.01</stddev>
         </noise>
       </ray>
-        <plugin name="gazebo_ros_laser_controller" 
-              filename="libgazebo_ros_laser.so">
+      <plugin name="gazebo_ros_laser_controller" filename="libgazebo_ros_laser.so">
         <topicName>/laser/scan</topicName>
         <frameName>laser_link</frameName>
       </plugin>

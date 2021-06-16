@@ -9,7 +9,7 @@
   <arg name="debug" default="false"/>
   <arg name="model" default="$(find forklift_description)/urdf/forklift.xacro"/>
 
-  <arg name="robot_pose_x" default="1.5"/>
+  <arg name="robot_pose_x" default="2"/>
   <arg name="robot_pose_y" default="2"/>
   <arg name="robot_pose_z" default="0"/>
   <arg name="robot_pose_roll" default="0"/>
