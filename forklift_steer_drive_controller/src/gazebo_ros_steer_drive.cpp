@@ -335,7 +335,6 @@ void GazeboRosSteerDrive::UpdateOdometryEncoder()
 
 void GazeboRosSteerDrive::publishOdometry ( double step_time )
 {
-
     ros::Time current_time = ros::Time::now();
     std::string odom_frame = gazebo_ros_->resolveTF ( odometry_frame_ );
     std::string base_footprint_frame = gazebo_ros_->resolveTF ( robot_base_frame_ );
@@ -390,7 +389,6 @@ void GazeboRosSteerDrive::publishOdometry ( double step_time )
         tf::StampedTransform ( base_footprint_to_odom, current_time,
                                odom_frame, base_footprint_frame ) );
 
-
     // set covariance - TODO, fix this(!)
     odom_.pose.covariance[0] = 0.00001;
     odom_.pose.covariance[7] = 0.00001;
@@ -398,7 +396,6 @@ void GazeboRosSteerDrive::publishOdometry ( double step_time )
     odom_.pose.covariance[21] = 1000000000000.0;
     odom_.pose.covariance[28] = 1000000000000.0;
     odom_.pose.covariance[35] = 0.001;
-
 
     // set header
     odom_.header.stamp = current_time;
@@ -409,7 +406,6 @@ void GazeboRosSteerDrive::publishOdometry ( double step_time )
 
     // publish the encoder based odometry
     {    
-
       if (!odom_enc_initialized_) 
       {
         pose_encoder_.x = odom_.pose.pose.position.x;

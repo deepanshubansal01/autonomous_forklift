@@ -333,7 +333,7 @@
       <driveTorque>1000</driveTorque>
       <commandTopic>cmd_vel</commandTopic>
       <odometryTopic>odom</odometryTopic>
-      <odometryFrame>/world</odometryFrame>
+      <odometryFrame>/odom</odometryFrame>
       <robotBaseFrame>base_footprint</robotBaseFrame>
       <wheelAcceleration>0.5</wheelAcceleration>
       <odomEncSteeringAngleOffset>0.01</odomEncSteeringAngleOffset>
