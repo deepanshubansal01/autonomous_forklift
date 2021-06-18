@@ -2,7 +2,7 @@
 <launch>
   <arg name="rvizconfig" default="$(find forklift_description)/launch/laser.rviz" />
 
-  <include file="$(find forklift_gazebo)/launch/forklift_basement.launch">
+  <include file="$(find forklift_gazebo)/launch/forklift_warehouse.launch">
   </include>
 
   <!-- Show in Rviz   -->
