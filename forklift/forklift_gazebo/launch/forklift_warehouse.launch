@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <!-- these are the arguments you can pass this launch file, for example paused:=true -->
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+  <arg name="model" default="$(find forklift_description)/urdf/forklift.xacro"/>
+
+  <arg name="robot_pose_x" default="-0.5"/>
+  <arg name="robot_pose_y" default="-1.5"/>
+  <arg name="robot_pose_z" default="0"/>
+  <arg name="robot_pose_roll" default="0"/>
+  <arg name="robot_pose_pitch" default="0"/>
+  <arg name="robot_pose_yaw" default="0"/>
+
+  <include file="$(find gazebo_worlds_noovelia)/launch/small_warehouse.launch">
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+  </include>
+
+  <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+  <!-- push robot_description to factory and spawn robot in gazebo -->
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model forklift -param robot_description
+       -x $(arg robot_pose_x) -y $(arg robot_pose_y) -z $(arg robot_pose_z) 
+       -R $(arg robot_pose_roll) -P $(arg robot_pose_pitch) -Y $(arg robot_pose_yaw)" />
+
+</launch>
