@@ -27,7 +27,7 @@
 
   <!--#### main wheel properties that performs steer + move ####-->
   <xacro:property name="wheel_width" value="0.08" />
-  <xacro:property name="wheel_radius" value="0.10" />
+  <xacro:property name="wheel_radius" value="0.12" />
   <xacro:property name="wheel_mass" value="10" />
   <!-- in kg-->
   <xacro:property name="wheel_x_offset" value="1.7" />
@@ -35,15 +35,15 @@
 
   <!--#### Navigation Laser properties ####-->
   <xacro:property name="laser_mass" value="0.01"/>
-  <xacro:property name="laser_length" value="0.05"/>
-  <xacro:property name="laser_width" value="0.05"/>
-  <xacro:property name="laser_height" value="0.07"/>
-  <xacro:property name="laser_offset_x" value="0.75"/>
-  <xacro:property name="laser_offset_y" value="0"/>
-  <xacro:property name="laser_offset_z" value="2.8"/>
+  <xacro:property name="laser_length" value="0.08"/>
+  <xacro:property name="laser_width" value="0.07"/>
+  <xacro:property name="laser_height" value="0.06"/>
+  <xacro:property name="laser_offset_x" value="0.25"/>
+  <xacro:property name="laser_offset_y" value="0.45"/>
+  <xacro:property name="laser_offset_z" value="${laser_height/2}"/>
 
   <!--### caster/fixed wheel properties ####-->
-  <xacro:property name="caster_radius" value="0.06" />
+  <xacro:property name="caster_radius" value="0.08" />
   <xacro:property name="caster_length" value="0.16" />
   <xacro:property name="caster_y_offset" value="0.52" />
 
@@ -247,7 +247,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://forklift_description/meshes/Forklift model/sick_s300_laser.dae"/>
+        <box size="${laser_length} ${laser_width} ${laser_height}"/>
       </geometry>
     </visual>
     <inertial>
@@ -263,8 +263,8 @@
 
   <joint name="laser_joint" type="fixed">
     <axis xyz="0 1 0" />
-    <origin xyz="${laser_offset_x} ${laser_offset_y} ${laser_offset_z}" rpy="0 0 0"/>
-    <parent link="base_link"/>
+    <origin xyz="${laser_offset_x} ${laser_offset_y} -${laser_offset_z}" rpy="0 0 0"/>
+    <parent link="steer_link"/>
     <child link="laser_link"/>
   </joint>
 
