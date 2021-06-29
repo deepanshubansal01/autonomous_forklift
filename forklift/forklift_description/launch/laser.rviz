@@ -133,8 +133,6 @@ Visualization Manager:
           Value: true
         fixed_right_wheel_link:
           Value: true
-        map:
-          Value: true
         nav1_laser_link:
           Value: true
         nav2_laser_link:
@@ -156,26 +154,25 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        map:
-          odom:
-            base_footprint:
-              base_link:
-                base_fork:
-                  nav1_laser_link:
-                    {}
-                  nav2_laser_link:
-                    {}
-                  nav3_laser_link:
-                    {}
-                fixed_left_wheel_link:
+        odom:
+          base_footprint:
+            base_link:
+              base_fork:
+                nav1_laser_link:
                   {}
-                fixed_right_wheel_link:
+                nav2_laser_link:
                   {}
-                steer_link:
-                  sd_wheel_link:
-                    {}
-            odom_enc:
-              {}
+                nav3_laser_link:
+                  {}
+              fixed_left_wheel_link:
+                {}
+              fixed_right_wheel_link:
+                {}
+              steer_link:
+                sd_wheel_link:
+                  {}
+          odom_enc:
+            {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -190,7 +187,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: Intensity
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Min Color: 0; 0; 0
@@ -205,7 +202,7 @@ Visualization Manager:
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -262,21 +259,39 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: false
       Value: false
-    - Alpha: 0.699999988079071
-      Class: rviz/Map
-      Color Scheme: map
-      Draw Behind: false
-      Enabled: true
-      Name: Map
-      Topic: /map
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/LaserScan
+      Color: 255; 255; 255
+      Color Transformer: ""
+      Decay Time: 0
+      Enabled: false
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: LaserScan
+      Position Transformer: ""
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.05000000074505806
+      Style: Flat Squares
+      Topic: /scan_multi
       Unreliable: false
-      Use Timestamp: false
-      Value: true
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: map
+    Fixed Frame: odom
     Frame Rate: 30
   Name: root
   Tools:
@@ -300,7 +315,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 16.22319984436035
+      Distance: 8.309673309326172
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -316,9 +331,9 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.8803978562355042
+      Pitch: 0.32039785385131836
       Target Frame: <Fixed Frame>
-      Yaw: 3.248527765274048
+      Yaw: 2.998527765274048
     Saved: ~
 Window Geometry:
   Displays:
