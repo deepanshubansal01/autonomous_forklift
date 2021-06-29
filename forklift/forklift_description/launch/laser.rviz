@@ -1,6 +1,6 @@
 Panels:
   - Class: rviz/Displays
-    Help Height: 78
+    Help Height: 111
     Name: Displays
     Property Tree Widget:
       Expanded:
@@ -8,7 +8,7 @@ Panels:
         - /Status1
         - /TF1/Frames1
       Splitter Ratio: 0.5
-    Tree Height: 407
+    Tree Height: 374
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -87,7 +87,17 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        laser_link:
+        nav1_laser_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        nav2_laser_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        nav3_laser_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -123,9 +133,11 @@ Visualization Manager:
           Value: true
         fixed_right_wheel_link:
           Value: true
-        laser_link:
+        nav1_laser_link:
           Value: true
-        map:
+        nav2_laser_link:
+          Value: true
+        nav3_laser_link:
           Value: true
         odom:
           Value: true
@@ -142,23 +154,25 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        map:
-          odom:
-            base_footprint:
-              base_link:
-                base_fork:
+        odom:
+          base_footprint:
+            base_link:
+              base_fork:
+                nav1_laser_link:
                   {}
-                fixed_left_wheel_link:
+                nav2_laser_link:
                   {}
-                fixed_right_wheel_link:
+                nav3_laser_link:
                   {}
-                laser_link:
+              fixed_left_wheel_link:
+                {}
+              fixed_right_wheel_link:
+                {}
+              steer_link:
+                sd_wheel_link:
                   {}
-                steer_link:
-                  sd_wheel_link:
-                    {}
-            odom_enc:
-              {}
+          odom_enc:
+            {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -173,7 +187,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: Intensity
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Min Color: 0; 0; 0
@@ -184,26 +198,100 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.05000000074505806
       Style: Flat Squares
-      Topic: /laser/scan
+      Topic: /nav1/laser/scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
-    - Alpha: 0.699999988079071
-      Class: rviz/Map
-      Color Scheme: map
-      Draw Behind: false
-      Enabled: true
-      Name: Map
-      Topic: map
+      Value: false
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/LaserScan
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: false
+      Invert Rainbow: true
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: LaserScan
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.05000000074505806
+      Style: Flat Squares
+      Topic: /nav2/laser/scan
       Unreliable: false
-      Use Timestamp: false
-      Value: true
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: false
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/LaserScan
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: false
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: LaserScan
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.05000000074505806
+      Style: Flat Squares
+      Topic: /nav3/laser/scan
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: false
+      Value: false
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/LaserScan
+      Color: 255; 255; 255
+      Color Transformer: ""
+      Decay Time: 0
+      Enabled: false
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: LaserScan
+      Position Transformer: ""
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.05000000074505806
+      Style: Flat Squares
+      Topic: /scan_multi
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: map
+    Fixed Frame: odom
     Frame Rate: 30
   Name: root
   Tools:
@@ -227,7 +315,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 16.93546485900879
+      Distance: 8.309673309326172
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -243,9 +331,9 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.6853978037834167
+      Pitch: 0.32039785385131836
       Target Frame: <Fixed Frame>
-      Yaw: 3.163527727127075
+      Yaw: 2.998527765274048
     Saved: ~
 Window Geometry:
   Displays:

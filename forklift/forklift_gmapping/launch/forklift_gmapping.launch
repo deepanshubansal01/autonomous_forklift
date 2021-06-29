@@ -10,7 +10,7 @@
 
   <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping">
     <rosparam file="$(find forklift_gmapping)/config/slam_gmapping_params.yaml" />
-    <remap from="scan" to="/laser/scan" />
+    <remap from="scan" to="nav3/laser/scan" />
   </node>
 
 </launch>
