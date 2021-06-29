@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <xacro:macro name="laser" params="name x_offset y_offset z_offset">
+    <xacro:macro name="laser" params="name x_offset y_offset z_offset yaw">
         <!--Navigation Laser -->
         <link name="${name}_laser_link">
             <collision>
@@ -29,14 +29,14 @@
 
         <joint name="${name}_laser_joint" type="fixed">
             <axis xyz="0 1 0" />
-            <origin xyz="${x_offset} ${y_offset} -${z_offset}" rpy="0 0 0"/>
+            <origin xyz="${x_offset} ${y_offset} -${z_offset}" rpy="0 0 ${yaw}"/>
             <parent link="base_fork"/>
             <child link="${name}_laser_link"/>
         </joint>
 
         <gazebo reference="${name}_laser_link">
             <!-- Don't use type="gpu_ray" -->
-            <sensor type="ray" name="nav_sensor">
+            <sensor type="ray" name="${name}_sensor">
                 <pose>0 0 0 0 0 0</pose>
                 <visualize>false</visualize>
                 <update_rate>40</update_rate>

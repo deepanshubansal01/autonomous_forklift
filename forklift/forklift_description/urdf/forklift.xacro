@@ -236,9 +236,9 @@
 
   <!--#### Laser####-->
   <xacro:include filename="$(find forklift_description)/urdf/laser.xacro" />
-  <xacro:laser name = "nav1" x_offset = "1.7" y_offset = "0.55" z_offset = "${laser_offset_z}"/>
-  <xacro:laser name = "nav2" x_offset = "1.7" y_offset = "-0.55" z_offset = "${laser_offset_z}"/>
-  <xacro:laser name = "nav3" x_offset = "0.5" y_offset = "0" z_offset = "${laser_offset_z}"/>
+  <xacro:laser name = "nav1" x_offset = "1.7" y_offset = "0.55" z_offset = "${laser_offset_z}" yaw = "0"/>
+  <xacro:laser name = "nav2" x_offset = "1.7" y_offset = "-0.55" z_offset = "${laser_offset_z}" yaw = "0"/>
+  <xacro:laser name = "nav3" x_offset = "0.5" y_offset = "0" z_offset = "${laser_offset_z}" yaw = "${M_PI}"/>
 
   <!--#### GAZEBO references ####-->
   <gazebo reference="base_footprint">
