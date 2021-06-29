@@ -27,10 +27,10 @@
             </inertial>
         </link>
 
-        <joint name="laser_joint" type="fixed">
+        <joint name="${name}_laser_joint" type="fixed">
             <axis xyz="0 1 0" />
             <origin xyz="${x_offset} ${y_offset} -${z_offset}" rpy="0 0 0"/>
-            <parent link="steer_link"/>
+            <parent link="base_fork"/>
             <child link="${name}_laser_link"/>
         </joint>
 
