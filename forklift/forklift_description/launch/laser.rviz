@@ -133,6 +133,8 @@ Visualization Manager:
           Value: true
         fixed_right_wheel_link:
           Value: true
+        map:
+          Value: true
         nav1_laser_link:
           Value: true
         nav2_laser_link:
@@ -154,25 +156,26 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        odom:
-          base_footprint:
-            base_link:
-              base_fork:
-                nav1_laser_link:
+        map:
+          odom:
+            base_footprint:
+              base_link:
+                base_fork:
+                  nav1_laser_link:
+                    {}
+                  nav2_laser_link:
+                    {}
+                  nav3_laser_link:
+                    {}
+                fixed_left_wheel_link:
                   {}
-                nav2_laser_link:
+                fixed_right_wheel_link:
                   {}
-                nav3_laser_link:
-                  {}
-              fixed_left_wheel_link:
-                {}
-              fixed_right_wheel_link:
-                {}
-              steer_link:
-                sd_wheel_link:
-                  {}
-          odom_enc:
-            {}
+                steer_link:
+                  sd_wheel_link:
+                    {}
+            odom_enc:
+              {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -269,14 +272,14 @@ Visualization Manager:
       Channel Name: intensity
       Class: rviz/LaserScan
       Color: 255; 255; 255
-      Color Transformer: ""
+      Color Transformer: Intensity
       Decay Time: 0
-      Enabled: false
+      Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Min Color: 0; 0; 0
       Name: LaserScan
-      Position Transformer: ""
+      Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
@@ -286,12 +289,22 @@ Visualization Manager:
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: false
+      Value: true
+    - Alpha: 0.699999988079071
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: true
+      Name: Map
+      Topic: /map
+      Unreliable: false
+      Use Timestamp: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: odom
+    Fixed Frame: map
     Frame Rate: 30
   Name: root
   Tools:
@@ -323,17 +336,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: -0.3537532091140747
-        Y: 0.7985031604766846
-        Z: 1.1675032377243042
+        X: -1.4920636415481567
+        Y: -1.2383958101272583
+        Z: 1.4105942249298096
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.32039785385131836
+      Pitch: 0.5853978991508484
       Target Frame: <Fixed Frame>
-      Yaw: 2.998527765274048
+      Yaw: 2.9285271167755127
     Saved: ~
 Window Geometry:
   Displays:
