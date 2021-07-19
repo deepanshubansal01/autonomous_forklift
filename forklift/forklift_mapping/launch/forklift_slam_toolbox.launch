@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <arg name="rvizconfig" default="$(find forklift_description)/launch/laser.rviz" />
+
+  <include file="$(find forklift_gazebo)/launch/forklift_warehouse.launch">
+  </include>
+
+  <!-- Show in Rviz   -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true"/>
+
+  <include file="$(find slam_toolbox)/launch/offline.launch">
+  </include>
+
+</launch>

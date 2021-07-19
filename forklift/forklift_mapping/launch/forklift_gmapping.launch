@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <arg name="rvizconfig" default="$(find forklift_description)/launch/laser.rviz" />
+
+  <include file="$(find forklift_gazebo)/launch/forklift_warehouse.launch">
+  </include>
+
+  <!-- Show in Rviz   -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true"/>
+
+  <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping">
+    <rosparam file="$(find forklift_mapping)/config/slam_gmapping_params.yaml" />
+    <remap from="scan" to="/scan_multi" />
+  </node>
+
+</launch>
