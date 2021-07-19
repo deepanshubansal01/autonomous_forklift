@@ -2,7 +2,7 @@
 
 Contains ros packages for forklift project.
 
-### Gazebo simulation environment
+## Gazebo simulation environment:
 NOTE: this should now be encoded directly into the devel/setup.bash script.
 
 Update the GAZEBO_MODEL_PATH variable, add the following to your ~/.bashrc file:
@@ -12,14 +12,14 @@ export GAZEBO_MODEL_PATH=/home/<YOUR USER NAME>/catkin_ws/src/forklift_robot/gaz
 ```
 This is needed in order to be able to load the different environments (otherwise you get "no namespace found" messages and an empty world
 
-## Control in Gazebo
+## Control in Gazebo:
 
 ```
 1. roslaunch forklift_gazebo forklift_warehouse.launch
 2. rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 ```
 
-## Localization and Mapping(SLAM)
+## Localization and Mapping(SLAM):
 
 * Using gmapping(*uses particle filer*)
 
