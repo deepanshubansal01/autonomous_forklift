@@ -16,6 +16,15 @@ This is needed in order to be able to load the different environments (otherwise
 * Using gmapping
 
 ```
-roslaunch forklift_mapping forklift_gmapping.launch
-roslaunch ira_laser_tools laserscan_multi_merger.launch
+1. roslaunch forklift_mapping forklift_gmapping.launch
+2. roslaunch ira_laser_tools laserscan_multi_merger.launch
 ```
+
+* Using slam_toolbox
+
+```
+1. roslaunch forklift_mapping forklift_slam_toolbox.launch
+2. roslaunch ira_laser_tools laserscan_multi_merger.launch
+```
+
+The laserscan_multi_merger.launch publishes on **/scan_multi** topic after merging data from three lasers. The /scan_multi  is subscribed by mapping node.
